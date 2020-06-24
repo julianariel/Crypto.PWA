@@ -10,16 +10,16 @@ namespace Crypto.PWA.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CoinController : ControllerBase
+    public class CoinsController : ControllerBase
     {
         private readonly IAPIService _api;
-        public CoinController(IAPIService api)
+        public CoinsController(IAPIService api)
         {
             _api = api;
         }
 
         [HttpGet]
-        public async Task<Coin> GetAsync()
+        public async Task<IEnumerable<Coin>> GetAsync()
         {
             return await _api.GetCoins();
         }

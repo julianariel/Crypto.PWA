@@ -16,12 +16,25 @@ namespace Crypto.PWA.Server.Services
         {
             _client = client;
         }
-        public async Task<Coin> GetCoins(string coin = "BTC", string fiat = "ARS")
+        public async Task<IEnumerable<Coin>> GetCoins(string coin = "BTC", string fiat = "ARS")
         {
-            Coin result = null;
+            Coin[] result = new Coin[2];
             try
             {
-                result = await _client.GetFromJsonAsync<Coin>("ripio/btc");
+                var ripioBTCTask = _client.GetFromJsonAsync<Coin>("ripio/btc");
+                var buenbitBTCTask = _client.GetFromJsonAsync<Coin>("buenbit/btc/ars");
+                await Task.WhenAll(ripioBTCTask, buenbitBTCTask);
+
+                result[0] = await ripioBTCTask;
+                result[0].Crypto = "BTC";
+                result[0].Fiat = "ARS";
+                result[0].Exchange = "Ripio";
+
+                result[1] = await buenbitBTCTask;
+                result[1].Fiat = "ARS";
+                result[1].Crypto = "BTC";
+                result[1].Exchange = "BuenBit";
+
             }
             catch (Exception ex)
             {

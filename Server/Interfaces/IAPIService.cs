@@ -8,6 +8,6 @@ namespace Crypto.PWA.Server.Interfaces
 {
     public interface IAPIService
     {
-        Task<Coin> GetCoins(string coin = "", string fiat = "ARS");
+        Task<IEnumerable<Coin>> GetCoins(string coin = "", string fiat = "ARS");
     }
 }
