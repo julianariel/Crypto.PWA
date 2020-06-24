@@ -1,0 +1,44 @@
+﻿@page "/precios"
+@using Crypto.PWA.Shared
+@inject HttpClient Http
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (coin == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @*@foreach (var coin in coins)*@
+            
+                <tr>
+                    <td>@coin.Ask</td>
+                    <td>@coin.Bid</td>
+                </tr>
+            
+        </tbody>
+    </table>
+}
+
+@code {
+    private Coin coin;
+
+    protected override async Task OnInitializedAsync()
+    {
+        coin = await Http.GetFromJsonAsync<Coin>("Coin");
+    }
+
+}
